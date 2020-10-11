@@ -6,7 +6,12 @@
   "scripts": {
     "dev": "nodemon --exec babel-node src/server.js",
     "build": "babel src --out-dir dist",
-    "start": "node dist/server.js"
+    "start": "node dist/server.js",
+    "migrate": "node_modules/.bin/sequelize db:migrate",
+    "undo:migration": "node_modules/.bin/sequelize db:migrate:undo:all",
+    "seed": "node_modules/.bin/sequelize db:seed:all",
+    "create:db": "node_modules/.bin/sequelize db:create alx",
+    "drop:db": "node_modules/.bin/sequelize db:drop alx"
   },
   "repository": {
     "type": "git",
@@ -31,6 +36,9 @@
   },
   "dependencies": {
     "cors": "^2.8.5",
-    "express": "^4.17.1"
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "pg": "^8.4.1",
+    "sequelize": "^6.3.5"
   }
 }

@@ -2,6 +2,7 @@ import express, { json } from 'express';
 import cors from 'cors';
 
 import { indexRouter } from './routes/index';
+import { sequelize } from './database/models/index';
 
 const app = express();
 
@@ -20,6 +21,10 @@ app.use((req, res) => {
 
 const port = process.env.PORT || 3000;
 
-app.listen(port, () => {
-  console.log(`App Listening on Port: ${port}`);
+sequelize.sync({ alter: false }).then(() => {
+  console.log('Database Connected!');
+
+  app.listen(port, () => {
+    console.log(`App Listening on Port: ${port}`);
+  });
 });
