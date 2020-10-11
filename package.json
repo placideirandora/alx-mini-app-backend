@@ -1,0 +1,23 @@
+{
+  "name": "alx-mini-app-backend",
+  "version": "1.0.0",
+  "description": "A Back-End REST Web API with Node/Express for ALX Application Technical Challenge",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/placiderapson/alx-mini-app-backend.git"
+  },
+  "keywords": [
+    "node.js",
+    "express"
+  ],
+  "author": "Placide IRANDORA",
+  "license": "GPL-3.0-or-later",
+  "bugs": {
+    "url": "https://github.com/placiderapson/alx-mini-app-backend/issues"
+  },
+  "homepage": "https://github.com/placiderapson/alx-mini-app-backend#readme"
+}
