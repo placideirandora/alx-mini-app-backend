@@ -4,7 +4,9 @@
   "description": "A Back-End REST Web API with Node/Express for ALX Application Technical Challenge",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "nodemon --exec babel-node src/server.js",
+    "build": "babel src --out-dir dist",
+    "start": "node dist/server.js"
   },
   "repository": {
     "type": "git",
@@ -19,5 +21,15 @@
   "bugs": {
     "url": "https://github.com/placiderapson/alx-mini-app-backend/issues"
   },
-  "homepage": "https://github.com/placiderapson/alx-mini-app-backend#readme"
+  "homepage": "https://github.com/placiderapson/alx-mini-app-backend#readme",
+  "devDependencies": {
+    "@babel/cli": "^7.11.6",
+    "@babel/core": "^7.11.6",
+    "@babel/node": "^7.10.5",
+    "@babel/preset-env": "^7.11.5",
+    "nodemon": "^2.0.4"
+  },
+  "dependencies": {
+    "express": "^4.17.1"
+  }
 }
