@@ -1,6 +1,6 @@
 import bcrypt from 'bcryptjs';
 
-import { User } from '../database/models/user';
+import { User } from '../database/models/User';
 
 export class UserController {
   /**
