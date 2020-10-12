@@ -7,7 +7,6 @@ import {
 
 export class AuthController {
   /**
-   * @description User Registration
    * @param {object} req
    * @param {object} res
    * @returns {object} User Object
@@ -53,7 +52,6 @@ export class AuthController {
   }
 
   /**
-   * @description User Login
    * @param {object} req
    * @param {object} res
    * @returns {object} User Object with Token
@@ -73,11 +71,7 @@ export class AuthController {
         });
       }
 
-      const token = generateToken(
-        registeredUser.id,
-        registeredUser.userName,
-        registeredUser.email
-      );
+      const token = generateToken(registeredUser);
 
       return res.status(200).json({
         message: 'Signed In Successfully',
@@ -94,6 +88,44 @@ export class AuthController {
     } catch (err) {
       return res.status(500).json({
         message: 'Something went wrong while trying to sign you in',
+        error: err.message,
+      });
+    }
+  }
+
+  /**
+   * @param {object} req
+   * @param {object} res
+   * @returns {object} Message for Result
+   */
+  static async changePassword(req, res) {
+    try {
+      const { oldPassword, newPassword } = req.body;
+      const { email } = req.user;
+
+      const registeredUser = await User.findOne({ where: { email } });
+
+      if (!compareHashedPasswords(oldPassword, registeredUser.password)) {
+        return res.status(403).json({
+          error: `Old password is incorrect. It doesn't match our record`,
+        });
+      }
+
+      const newPasswordHash = hashPassword(newPassword);
+
+      const updatedPassword = await User.update(
+        { password: newPasswordHash },
+        { where: { email } }
+      );
+
+      if (updatedPassword) {
+        return res.status(200).json({
+          message: 'Successfully changed password',
+        });
+      }
+    } catch (err) {
+      return res.status(500).json({
+        message: 'Something went wrong while trying to change your password',
         error: err.message,
       });
     }
