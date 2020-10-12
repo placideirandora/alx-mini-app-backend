@@ -1,7 +1,7 @@
 import { Router } from 'express';
 
 import { UserController } from '../controllers/user';
-import { userSchemaValidator } from '../middleware/schemaValidator';
+import { signUpSchemaValidator, signInSchemaValidator } from '../middleware/schemaValidator';
 
 export const indexRouter = Router();
 
@@ -11,4 +11,8 @@ indexRouter.get('/', (req, res) => {
   });
 });
 
-indexRouter.post('/signup', userSchemaValidator, UserController.signUp);
+indexRouter.post('/signup', signUpSchemaValidator, UserController.signUp);
+
+indexRouter.post('/signin', signInSchemaValidator, UserController.signIn);
+
+
