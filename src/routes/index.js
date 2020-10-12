@@ -1,14 +1,14 @@
 import { Router } from 'express';
 
 import { AuthController } from '../controllers/auth';
+import { ProfileController } from '../controllers/profile';
 import {
   signUpSchemaValidator,
   signInSchemaValidator,
   changePasswordSchemaValidator,
+  updateProfileSchemaValidator,
 } from '../middleware/schemaValidator';
-import {
-  TokenVerification,
-} from '../middleware/tokenVerifier';
+import { TokenVerification } from '../middleware/tokenVerifier';
 
 export const indexRouter = Router();
 
@@ -20,15 +20,24 @@ indexRouter.get('/', (req, res) => {
 
 indexRouter.post('/auth/signup', signUpSchemaValidator, AuthController.signUp);
 
-indexRouter.post(
-  '/auth/signin',
-  signInSchemaValidator,
-  AuthController.signIn
-);
+indexRouter.post('/auth/signin', signInSchemaValidator, AuthController.signIn);
 
 indexRouter.post(
   '/auth/change-password',
   TokenVerification.verifyToken,
   changePasswordSchemaValidator,
   AuthController.changePassword
+);
+
+indexRouter.get(
+  '/profile',
+  TokenVerification.verifyToken,
+  ProfileController.getProfile
+);
+
+indexRouter.put(
+  '/profile',
+  TokenVerification.verifyToken,
+  updateProfileSchemaValidator,
+  ProfileController.updateProfile
 );
