@@ -5,7 +5,7 @@ import {
   generateToken,
 } from '../helpers/auth';
 
-export class UserController {
+export class AuthController {
   /**
    * @description User Registration
    * @param {object} req
