@@ -13,7 +13,7 @@ export class ProfileController {
       const registeredUser = await User.findOne({ where: { email } });
 
       return res.status(201).json({
-        message: 'Successfully retrieve the profile',
+        message: 'Profile retrieved',
         data: {
           firstName: registeredUser.firstName,
           lastName: registeredUser.lastName,
@@ -44,14 +44,14 @@ export class ProfileController {
 
       if (userNameTaken) {
         return res.status(400).json({
-          error: `Username, ${req.body.userName} has already been taken. Choose a different one.`,
+          message: `Username ${req.body.userName} is already taken. Choose a different one.`,
         });
       }
 
       await User.update({ ...req.body }, { where: { email } });
 
       return res.status(201).json({
-        message: 'Successfully updated the profile',
+        message: 'Profile updated',
         data: {
           ...req.body,
         },

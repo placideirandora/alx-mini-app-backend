@@ -20,13 +20,13 @@ export class AuthController {
 
       if (emailExists) {
         return res.status(409).json({
-          error: `User with the email, ${email} is already registered. Use a different one`,
+          message: `Email ${email} is already taken. Use a different one.`,
         });
       }
 
       if (usernameExists) {
         return res.status(409).json({
-          error: `User with the username ${userName} is already registered. Use a different one`,
+          message: `Username ${userName} is already taken. Use a different one.`,
         });
       }
 
@@ -35,7 +35,7 @@ export class AuthController {
       const registeredUser = await User.create(req.body);
 
       return res.status(201).json({
-        message: 'Registered successfully',
+        message: 'Registered',
         data: {
           firstName: registeredUser.firstName,
           lastName: registeredUser.lastName,
@@ -67,14 +67,14 @@ export class AuthController {
         !compareHashedPasswords(password, registeredUser.password)
       ) {
         return res.status(401).json({
-          error: `Incorrect Email or Password`,
+          message: `Incorrect Email or Password`,
         });
       }
 
       const token = generateToken(registeredUser);
 
       return res.status(200).json({
-        message: 'Signed In Successfully',
+        message: 'Signed In',
         data: {
           token,
           user: {
@@ -107,7 +107,7 @@ export class AuthController {
 
       if (!compareHashedPasswords(oldPassword, registeredUser.password)) {
         return res.status(403).json({
-          error: `Old password is incorrect. It doesn't match our record`,
+          message: `Old password is incorrect. It doesn't match our record.`,
         });
       }
 
@@ -120,7 +120,7 @@ export class AuthController {
 
       if (updatedPassword) {
         return res.status(200).json({
-          message: 'Successfully changed password',
+          message: 'Password changed',
         });
       }
     } catch (err) {
