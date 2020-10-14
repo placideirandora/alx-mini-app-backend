@@ -107,7 +107,7 @@ export class AuthController {
 
       if (!compareHashedPasswords(oldPassword, registeredUser.password)) {
         return res.status(403).json({
-          message: `Old password is incorrect. It doesn't match our record.`,
+          message: 'Incorrect Old Password. Try again.',
         });
       }
 
