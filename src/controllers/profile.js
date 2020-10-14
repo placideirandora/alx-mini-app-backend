@@ -54,6 +54,7 @@ export class ProfileController {
         message: 'Profile updated',
         data: {
           ...req.body,
+          email
         },
       });
     } catch (err) {
