@@ -106,7 +106,7 @@ export class AuthController {
       const registeredUser = await User.findOne({ where: { email } });
 
       if (!compareHashedPasswords(oldPassword, registeredUser.password)) {
-        return res.status(403).json({
+        return res.status(400).json({
           message: 'Incorrect Old Password. Try again.',
         });
       }
