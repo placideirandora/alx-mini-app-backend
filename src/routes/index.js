@@ -12,17 +12,11 @@ import { TokenVerification } from '../middleware/tokenVerifier';
 
 export const indexRouter = Router();
 
-indexRouter.get('/', (req, res) => {
-  res.status(200).json({
-    message: 'Welcome to the ALX Code Challenge Mini App Back-End REST API',
-  });
-});
-
 indexRouter.post('/auth/signup', signUpSchemaValidator, AuthController.signUp);
 
 indexRouter.post('/auth/signin', signInSchemaValidator, AuthController.signIn);
 
-indexRouter.post(
+indexRouter.patch(
   '/auth/change-password',
   TokenVerification.verifyToken,
   changePasswordSchemaValidator,
@@ -35,7 +29,7 @@ indexRouter.get(
   ProfileController.getProfile
 );
 
-indexRouter.put(
+indexRouter.patch(
   '/profile',
   TokenVerification.verifyToken,
   updateProfileSchemaValidator,
