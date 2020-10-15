@@ -1,8 +1,10 @@
 import express, { json } from 'express';
 import cors from 'cors';
+import swaggerUI from 'swagger-ui-express';
 
 import { indexRouter } from './routes/index';
 import { sequelize } from './database/models/index';
+import swaggerDOC from '../swagger';
 
 const app = express();
 
@@ -15,8 +17,11 @@ app.use(cors());
 // Main Endpoint Route
 app.use('/api/v1', indexRouter);
 
+// Api Documentation route
+app.use('/api/v1/doc', swaggerUI.serve, swaggerUI.setup(swaggerDOC));
+
 app.use((req, res) => {
-  res.status(404).json({ error: 'Route not found' });
+  res.status(404).json({ message: 'Endpoint not found' });
 });
 
 const port = process.env.PORT || 3000;
