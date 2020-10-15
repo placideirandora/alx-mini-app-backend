@@ -1,5 +1,7 @@
 # Ignore the following files and folders
 
-package-lock.json
 node_modules
+dist
 .env
+package-lock.json
+
