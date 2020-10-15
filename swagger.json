@@ -10,16 +10,16 @@
   },
   "servers": [
     {
-      "url": "http://localhost:3000/api/v1"
+      "url": "https://alx-mini-app-api.herokuapp.com/api/v1"
     },
     {
-      "url": "https://api.alx-mini-app.herokuapp.com/api/v1"
+      "url": "http://localhost:3000/api/v1"
     }
   ],
   "tags": [
     {
       "name": "AUTHENTICATION ENDPOINTS",
-      "description": "Everything about your User Registration and User Login"
+      "description": "Everything about User Registration and User Login"
     },
     {
       "name": "PASSWORD ENDPOINTS",
