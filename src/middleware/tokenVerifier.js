@@ -14,11 +14,14 @@ export class TokenVerification {
    * @returns {object} Error message
    */
   static verifyToken(req, res, next) {
-    const token = req.headers.authorization;
+    const bearerHeader = req.headers.authorization;
 
-    if (!token) {
+    if (typeof bearerHeader === 'undefined' || !bearerHeader) {
       res.status(403).json({ error: 'Please log in or Register' });
     } else {
+      const bearerHeaderArr = bearerHeader.split(' ');
+      const token = bearerHeaderArr[1];
+
       jwt.verify(token, process.env.SECRET_KEY, async (error, decoded) => {
         if (error) {
           return res.status(403).json({ error: `${error.message}` });
