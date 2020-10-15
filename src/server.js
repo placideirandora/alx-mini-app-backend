@@ -17,8 +17,8 @@ app.use(cors());
 // Main Endpoint Route
 app.use('/api/v1', indexRouter);
 
-// Api Documentation route
-app.use('/api/v1/doc', swaggerUI.serve, swaggerUI.setup(swaggerDOC));
+// Api Documentation Route
+app.use('/', swaggerUI.serve, swaggerUI.setup(swaggerDOC));
 
 app.use((req, res) => {
   res.status(404).json({ message: 'Endpoint not found' });
