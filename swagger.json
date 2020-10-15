@@ -1,0 +1,263 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "version": "1.0.0",
+    "title": "ALX MINI APP API",
+    "description": "A Back-End REST Web API with Node/Express for ALX Application Technical Challenge"
+  },
+  "contact": {
+    "email": "placideirandora@gmail.com"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000/api/v1"
+    },
+    {
+      "url": "https://api.alx-mini-app.herokuapp.com/api/v1"
+    }
+  ],
+  "tags": [
+    {
+      "name": "AUTHENTICATION ENDPOINTS",
+      "description": "Everything about your User Registration and User Login"
+    },
+    {
+      "name": "PASSWORD ENDPOINTS",
+      "description": "Everything about changing/updating User Password"
+    },
+    {
+      "name": "PROFILE ENDPOINTS",
+      "description": "Everything about viewing and updating User Profile"
+    }
+  ],
+  "paths": {
+    "/auth/signup": {
+      "post": {
+        "tags": ["AUTHENTICATION ENDPOINTS"],
+        "summary": "User Registration",
+        "requestBody": {
+          "description": "Credentials required for registering user to gain access to the API",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Register"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Created - User Registered"
+          },
+          "400": {
+            "description": "Bad Request - Invalid Information Submitted"
+          },
+          "409": {
+            "description": "Conflict - Duplicated Information Submitted"
+          },
+          "500": {
+            "description": "Internal Server Error - Server Couldn't Process Request"
+          }
+        }
+      }
+    },
+    "/auth/signin": {
+      "post": {
+        "tags": ["AUTHENTICATION ENDPOINTS"],
+        "summary": "User Login",
+        "requestBody": {
+          "description": "Credentials required for giving user a token for accessing the API",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Login"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Ok - Logged In"
+          },
+          "400": {
+            "description": "Bad Request - Invalid Information Provided"
+          },
+          "500": {
+            "description": "Internal Server Error - Server Couldn't Process Request"
+          }
+        }
+      }
+    },
+    "/auth/change-password": {
+      "patch": {
+        "tags": ["PASSWORD ENDPOINTS"],
+        "summary": "Change Password",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "description": "Password object required for updating existing password",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ChangePassword"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Ok - Password Changed"
+          },
+          "403": {
+            "description": "Forbidden - Token Not Submitted"
+          },
+          "401": {
+            "description": "Unauthorized - Invalid Token Submitted"
+          },
+          "400": {
+            "description": "Bad Request - Invalid Information Provided"
+          },
+          "500": {
+            "description": "Internal Server Error - Server Couldn't Process Request"
+          }
+        }
+      }
+    },
+    "/profile": {
+      "get": {
+        "tags": ["PROFILE ENDPOINTS"],
+        "summary": "Retrieve Profile",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok - Profile Retrieved"
+          },
+          "403": {
+            "description": "Forbidden - Token Not Submitted"
+          },
+          "401": {
+            "description": "Unauthorized - Invalid Token Submitted"
+          },
+          "500": {
+            "description": "Internal Server Error - Server Couldn't Process Request"
+          }
+        }
+      },
+      "patch": {
+        "tags": ["PROFILE ENDPOINTS"],
+        "summary": "Update Profile",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "description": "Profile object required for updating existing profile",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Profile"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Ok - Profile Updated"
+          },
+          "403": {
+            "description": "Forbidden - Token Not Submitted"
+          },
+          "401": {
+            "description": "Unauthorized - Invalid Token Submitted"
+          },
+          "400": {
+            "description": "Bad Request - Invalid Information Provided"
+          },
+          "500": {
+            "description": "Internal Server Error - Server Couldn't Process Request"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    },
+    "schemas": {
+      "Register": {
+        "type": "object",
+        "properties": {
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          },
+          "userName": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string",
+            "uniqueItems": true
+          },
+          "password": {
+            "type": "string"
+          }
+        }
+      },
+      "Login": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          }
+        }
+      },
+      "ChangePassword": {
+        "type": "object",
+        "properties": {
+          "oldPassword": {
+            "type": "string"
+          },
+          "newPassword": {
+            "type": "string"
+          }
+        }
+      },
+      "Profile": {
+        "type": "object",
+        "properties": {
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          },
+          "userName": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}
