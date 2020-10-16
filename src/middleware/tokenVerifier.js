@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
 import { config } from 'dotenv';
 
-import { User } from '../database/models/User';
+import { User } from '../data/models/User';
 
 config();
 

@@ -3,7 +3,7 @@ import cors from 'cors';
 import swaggerUI from 'swagger-ui-express';
 
 import { indexRouter } from './routes/index';
-import { sequelize } from './database/models/index';
+import { sequelize } from './data/models/index';
 import swaggerDOC from '../swagger';
 
 const app = express();

@@ -1,4 +1,4 @@
-import { User } from '../database/models/User';
+import { User } from '../data/models/User';
 
 export class ProfileController {
   /**
@@ -54,7 +54,7 @@ export class ProfileController {
         message: 'Profile updated',
         data: {
           ...req.body,
-          email
+          email,
         },
       });
     } catch (err) {

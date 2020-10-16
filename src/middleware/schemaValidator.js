@@ -3,7 +3,7 @@ import {
   signInSchema,
   changePasswordSchema,
   updateProfileSchema,
-} from '../helpers/schemas';
+} from '../helpers/validationSchemaHelper';
 
 export const signUpSchemaValidator = (req, res, next) => {
   const { error } = signUpSchema.validate(req.body);

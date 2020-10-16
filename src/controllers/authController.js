@@ -1,9 +1,9 @@
-import { User } from '../database/models/User';
+import { User } from '../data/models/User';
 import {
   hashPassword,
   compareHashedPasswords,
   generateToken,
-} from '../helpers/auth';
+} from '../helpers/authHelper';
 
 export class AuthController {
   /**

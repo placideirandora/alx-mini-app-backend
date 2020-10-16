@@ -1,7 +1,7 @@
 import { Router } from 'express';
 
-import { AuthController } from '../controllers/auth';
-import { ProfileController } from '../controllers/profile';
+import { AuthController } from '../controllers/authController';
+import { ProfileController } from '../controllers/profileController';
 import {
   signUpSchemaValidator,
   signInSchemaValidator,
