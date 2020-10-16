@@ -2,24 +2,27 @@ import { Router } from 'express';
 
 import { AuthController } from '../controllers/authController';
 import { ProfileController } from '../controllers/profileController';
-import {
-  signUpSchemaValidator,
-  signInSchemaValidator,
-  changePasswordSchemaValidator,
-  updateProfileSchemaValidator,
-} from '../middleware/schemaValidator';
+import { SchemaValidation } from '../middleware/schemaValidator';
 import { TokenVerification } from '../middleware/tokenVerifier';
 
 export const indexRouter = Router();
 
-indexRouter.post('/auth/signup', signUpSchemaValidator, AuthController.signUp);
+indexRouter.post(
+  '/auth/signup',
+  SchemaValidation.validateSignUp,
+  AuthController.signUp
+);
 
-indexRouter.post('/auth/signin', signInSchemaValidator, AuthController.signIn);
+indexRouter.post(
+  '/auth/signin',
+  SchemaValidation.validateSignIn,
+  AuthController.signIn
+);
 
 indexRouter.patch(
   '/auth/change-password',
   TokenVerification.verifyToken,
-  changePasswordSchemaValidator,
+  SchemaValidation.validatePasswordChange,
   AuthController.changePassword
 );
 
@@ -32,6 +35,6 @@ indexRouter.get(
 indexRouter.patch(
   '/profile',
   TokenVerification.verifyToken,
-  updateProfileSchemaValidator,
+  SchemaValidation.validateProfileUpdate,
   ProfileController.updateProfile
 );
