@@ -1,9 +1,5 @@
-import { User } from '../data/models/User';
-import {
-  hashPassword,
-  compareHashedPasswords,
-  generateToken,
-} from '../helpers/authHelper';
+import { AuthService } from '../data/services/authService';
+import { UserService } from '../data/services/userService';
 
 export class AuthController {
   /**
@@ -13,34 +9,33 @@ export class AuthController {
    */
   static async signUp(req, res) {
     try {
-      const { email, userName, password } = req.body;
+      const { email, userName } = req.body;
 
-      const emailExists = await User.findOne({ where: { email } });
-      const usernameExists = await User.findOne({ where: { userName } });
+      const emailTaken = await UserService.findUserByEmail(email);
 
-      if (emailExists) {
+      if (emailTaken) {
         return res.status(409).json({
           message: `Email ${email} is already taken. Use a different one.`,
         });
       }
 
-      if (usernameExists) {
+      const userNameTaken = await UserService.findUserByUserName(userName);
+
+      if (userNameTaken) {
         return res.status(409).json({
           message: `Username ${userName} is already taken. Use a different one.`,
         });
       }
 
-      req.body.password = hashPassword(password);
-
-      const registeredUser = await User.create(req.body);
+      const user = await AuthService.registerUser(req.body);
 
       return res.status(201).json({
         message: 'Registered',
         data: {
-          firstName: registeredUser.firstName,
-          lastName: registeredUser.lastName,
-          userName: registeredUser.userName,
-          email: registeredUser.email,
+          firstName: user.firstName,
+          lastName: user.lastName,
+          userName: user.userName,
+          email: user.email,
         },
       });
     } catch (err) {
@@ -60,28 +55,31 @@ export class AuthController {
     try {
       const { email, password } = req.body;
 
-      const registeredUser = await User.findOne({ where: { email } });
+      const user = await UserService.findUserByEmail(email);
 
-      if (
-        !registeredUser ||
-        !compareHashedPasswords(password, registeredUser.password)
-      ) {
+      if (!user) {
         return res.status(401).json({
-          message: `Incorrect Email or Password`,
+          message: `Incorrect Email`,
         });
       }
 
-      const token = generateToken(registeredUser);
+      const response = await AuthService.loginUser(user, password);
+
+      if (!response) {
+        return res.status(401).json({
+          message: `Incorrect Password`,
+        });
+      }
 
       return res.status(200).json({
         message: 'Signed In',
         data: {
-          token,
+          token: response.token,
           user: {
-            firstName: registeredUser.firstName,
-            lastName: registeredUser.lastName,
-            userName: registeredUser.userName,
-            email: registeredUser.email,
+            firstName: response.user.firstName,
+            lastName: response.user.lastName,
+            userName: response.user.userName,
+            email: response.user.email,
           },
         },
       });
@@ -100,29 +98,23 @@ export class AuthController {
    */
   static async changePassword(req, res) {
     try {
-      const { oldPassword, newPassword } = req.body;
       const { email } = req.user;
 
-      const registeredUser = await User.findOne({ where: { email } });
+      const user = await UserService.findUserByEmail(email);
 
-      if (!compareHashedPasswords(oldPassword, registeredUser.password)) {
+      req.body.user = user;
+
+      const updatedPassword = await AuthService.changeUserPassword(req.body);
+
+      if (!updatedPassword) {
         return res.status(400).json({
           message: 'Incorrect Old Password. Try again.',
         });
       }
 
-      const newPasswordHash = hashPassword(newPassword);
-
-      const updatedPassword = await User.update(
-        { password: newPasswordHash },
-        { where: { email } }
-      );
-
-      if (updatedPassword) {
-        return res.status(200).json({
-          message: 'Password changed',
-        });
-      }
+      return res.status(200).json({
+        message: 'Password changed',
+      });
     } catch (err) {
       return res.status(500).json({
         message: 'Something went wrong while trying to change your password',

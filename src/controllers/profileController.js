@@ -1,5 +1,4 @@
-import { User } from '../data/models/User';
-
+import { UserService } from '../data/services/userService';
 export class ProfileController {
   /**
    * @param {object} req
@@ -10,15 +9,15 @@ export class ProfileController {
     try {
       const { email } = req.user;
 
-      const registeredUser = await User.findOne({ where: { email } });
+      const user = await UserService.findUserByEmail(email);
 
       return res.status(201).json({
         message: 'Profile retrieved',
         data: {
-          firstName: registeredUser.firstName,
-          lastName: registeredUser.lastName,
-          userName: registeredUser.userName,
-          email: registeredUser.email,
+          firstName: user.firstName,
+          lastName: user.lastName,
+          userName: user.userName,
+          email: user.email,
         },
       });
     } catch (err) {
@@ -37,18 +36,17 @@ export class ProfileController {
   static async updateProfile(req, res) {
     try {
       const { email } = req.user;
+      const { userName } = req.body;
 
-      const userNameTaken = await User.findOne({
-        where: { userName: req.body.userName },
-      });
+      const userNameTaken = await UserService.findUserByUserName(userName);
 
       if (userNameTaken) {
-        return res.status(400).json({
-          message: `Username ${req.body.userName} is already taken. Choose a different one.`,
+        return res.status(409).json({
+          message: `Username ${userName} is already taken. Use a different one.`,
         });
       }
 
-      await User.update({ ...req.body }, { where: { email } });
+      await UserService.updateUser(req.body, email);
 
       return res.status(201).json({
         message: 'Profile updated',
