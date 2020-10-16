@@ -2,7 +2,7 @@ import express, { json } from 'express';
 import cors from 'cors';
 import swaggerUI from 'swagger-ui-express';
 
-import { indexRouter } from './routes/index';
+import { router } from './routes/index';
 import { sequelize } from './data/models/index';
 import swaggerDOC from '../swagger';
 
@@ -15,7 +15,7 @@ app.use(json());
 app.use(cors());
 
 // Main Endpoint Route
-app.use('/api/v1', indexRouter);
+app.use('/api/v1', router);
 
 // Api Documentation Route
 app.use('/', swaggerUI.serve, swaggerUI.setup(swaggerDOC));

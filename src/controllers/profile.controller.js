@@ -1,4 +1,4 @@
-import { UserService } from '../data/services/userService';
+import { UserService } from '../data/services/user.service';
 export class ProfileController {
   /**
    * @param {object} req

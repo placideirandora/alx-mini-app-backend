@@ -1,5 +1,5 @@
-import { AuthService } from '../data/services/authService';
-import { UserService } from '../data/services/userService';
+import { AuthService } from '../data/services/auth.service';
+import { UserService } from '../data/services/user.service';
 
 export class AuthController {
   /**

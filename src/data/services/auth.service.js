@@ -1,5 +1,5 @@
 import { User } from '../models/User';
-import { AuthHelper } from '../../helpers/authHelper';
+import { AuthHelper } from '../../helpers/auth.helper';
 
 export class AuthService {
   static async registerUser(user) {

@@ -1,38 +1,38 @@
 import { Router } from 'express';
 
-import { AuthController } from '../controllers/authController';
-import { ProfileController } from '../controllers/profileController';
-import { SchemaValidation } from '../middleware/schemaValidator';
-import { TokenVerification } from '../middleware/tokenVerifier';
+import { AuthController } from '../controllers/auth.controller';
+import { ProfileController } from '../controllers/profile.controller';
+import { SchemaValidation } from '../middleware/schema-validation.middleware';
+import { TokenVerification } from '../middleware/token-verification.middleware';
 
-export const indexRouter = Router();
+export const router = Router();
 
-indexRouter.post(
+router.post(
   '/auth/signup',
   SchemaValidation.validateSignUp,
   AuthController.signUp
 );
 
-indexRouter.post(
+router.post(
   '/auth/signin',
   SchemaValidation.validateSignIn,
   AuthController.signIn
 );
 
-indexRouter.patch(
+router.patch(
   '/auth/change-password',
   TokenVerification.verifyToken,
   SchemaValidation.validatePasswordChange,
   AuthController.changePassword
 );
 
-indexRouter.get(
+router.get(
   '/profile',
   TokenVerification.verifyToken,
   ProfileController.getProfile
 );
 
-indexRouter.patch(
+router.patch(
   '/profile',
   TokenVerification.verifyToken,
   SchemaValidation.validateProfileUpdate,

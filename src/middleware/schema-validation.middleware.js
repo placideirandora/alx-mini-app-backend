@@ -3,7 +3,7 @@ import {
   signInSchema,
   changePasswordSchema,
   updateProfileSchema,
-} from '../helpers/validationSchemaHelper';
+} from '../helpers/schema-validation.helper';
 
 export class SchemaValidation {
   static validateSignUp(req, res, next) {
