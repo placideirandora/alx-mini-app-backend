@@ -11,7 +11,7 @@ export class ProfileController {
 
       const user = await UserService.findUserByEmail(email);
 
-      return res.status(201).json({
+      return res.status(200).json({
         message: 'Profile retrieved',
         data: {
           firstName: user.firstName,
